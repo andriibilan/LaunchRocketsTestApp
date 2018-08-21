@@ -1,18 +1,30 @@
 PODS:
+  - Bond (6.8.3):
+    - Differ (~> 1.0)
+    - ReactiveKit (~> 3.9)
+  - Differ (1.2.3)
+  - ReactiveKit (3.9.6)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
 
 DEPENDENCIES:
+  - Bond
   - SDWebImage (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Bond
+    - Differ
+    - ReactiveKit
     - SDWebImage
 
 SPEC CHECKSUMS:
+  Bond: d6d25c0cb90459b9d27197251405c6db254da4cf
+  Differ: 061f3298ea9408494c43b530c44583e555884daf
+  ReactiveKit: 804d3093ad42dee0de19e42d4f7dcae9c14364b0
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
-PODFILE CHECKSUM: 3665bac342ab65ffaff6513728a7ce4cdd661ce9
+PODFILE CHECKSUM: 770a55f26a34e89732005ba3f3f463ceda2e9feb
 
 COCOAPODS: 1.5.3

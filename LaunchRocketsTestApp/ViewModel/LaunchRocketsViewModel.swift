@@ -7,13 +7,14 @@
 //
 
 import Foundation
-
+import Bond
+import ReactiveKit
 class LaunchRocketsViewModel {
     
     // MARK: - Private Properties
     
    private let dataProvider = LaunchRocketsDataProvider()
-   private var launchItems = [LaunchItem]()
+    var launchItems: [LaunchItem] = [LaunchItem]()
     
     // MARK: - Public Properties
     
@@ -31,8 +32,9 @@ class LaunchRocketsViewModel {
 
             if success {
                 guard let items = items else { return }
-
+                
                 self.launchItems = items
+                
                 self.reloadTableViewClosure?()
             }
         }

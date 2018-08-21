@@ -8,12 +8,14 @@
 
 import UIKit
 import SDWebImage
+import Bond
+import ReactiveKit
 
 class LaunchRocketsViewController: UIViewController {
     
     // MARK: - Private Properties
     
-   private var data = [LaunchItem]()
+    private var data = MutableObservableArray([LaunchItem]())
     lazy private var viewModel: LaunchRocketsViewModel = {
         return LaunchRocketsViewModel()
     }()
@@ -38,6 +40,7 @@ class LaunchRocketsViewController: UIViewController {
         self.title = "Launch"
         activityIndicator.startAnimating()
         setViewModel()
+      
     }
     
     override func prepare(for segue: UIStoryboardSegue,
@@ -55,26 +58,15 @@ class LaunchRocketsViewController: UIViewController {
 extension LaunchRocketsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRow
+        return data.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCustomCell",
                                                  for: indexPath) as! CustomTableViewCell
-        let cellVM = viewModel.getCellViewModel(at: indexPath)
-        cell.launchDescription.text = cellVM.description
-        cell.launchDescription.setContentOffset(CGPoint.zero, animated: false)
-        cell.launchPlace.text = cellVM.location?.name
-        cell.name.text = cellVM.name
-        cell.activityIndicator.startAnimating()
-        cell.rocketImage.sd_setImage(with: cellVM.photo,
-                                     placeholderImage: nil,
-                                     options: .scaleDownLargeImages) { (image, error, SDImageCasheDisk, nil) in
-                                        cell.activityIndicator.stopAnimating()
-                                        cell.activityIndicator.hidesWhenStopped = true
-        }
-        return cell
+
+         return cell
     }
     
     func tableView(_ tableView: UITableView,
@@ -96,7 +88,24 @@ private extension LaunchRocketsViewController {
     func setViewModel() {
         viewModel.reloadTableViewClosure = { [weak self] in
             guard let `self` = self else { return }
-           
+            self.data = MutableObservableArray(self.viewModel.launchItems)
+            self.data.bind(to: self.tableView) { (item, indexPath, table) -> UITableViewCell in
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: "ReusableCustomCell",
+                                                         for: indexPath) as! CustomTableViewCell
+                let model = item[indexPath.item]
+                cell.launchDescription.text = model.description
+                cell.launchDescription.setContentOffset(CGPoint.zero, animated: false)
+                cell.launchPlace.text = model.location?.name
+                cell.name.text = model.name
+                cell.activityIndicator.startAnimating()
+                cell.rocketImage.sd_setImage(with: model.photo,
+                                             placeholderImage: nil,
+                                             options: .scaleDownLargeImages) { (image, error, SDImageCasheDisk, nil) in
+                                                cell.activityIndicator.stopAnimating()
+                                                cell.activityIndicator.hidesWhenStopped = true
+                }
+                return cell
+            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.activityIndicator.stopAnimating()
