@@ -55,20 +55,7 @@ class LaunchRocketsViewController: UIViewController {
 
 // MARK: - UITableViewDelegete and DataSource
 
-extension LaunchRocketsViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int {
-        return data.count
-    }
-    
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCustomCell",
-                                                 for: indexPath) as! CustomTableViewCell
-
-         return cell
-    }
-    
+extension LaunchRocketsViewController:  UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         let model = viewModel.getCellViewModel(at: indexPath)
