@@ -13,6 +13,7 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var rocketImage: UIImageView!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var launchPlace: UILabel!
-    @IBOutlet weak var launchDescription: UITextView! 
+    @IBOutlet weak var launchDescription: UILabel!
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 }

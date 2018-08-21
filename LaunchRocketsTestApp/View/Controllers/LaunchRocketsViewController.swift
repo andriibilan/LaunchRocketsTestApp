@@ -40,7 +40,13 @@ class LaunchRocketsViewController: UIViewController {
         self.title = "Launch"
         activityIndicator.startAnimating()
         setViewModel()
-      
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.estimatedRowHeight = 200
+        tableView.rowHeight = UITableViewAutomaticDimension
+       // tableView.mini
     }
     
     override func prepare(for segue: UIStoryboardSegue,
@@ -62,11 +68,11 @@ extension LaunchRocketsViewController:  UITableViewDelegate {
         self.performSegue(withIdentifier: "detailLaunchRocket",
                           sender: model)
     }
-    
-     func tableView(_ tableView: UITableView,
-                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 184.5
-    }
+//
+//     func tableView(_ tableView: UITableView,
+//                    heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 184.5
+//    }
 }
 
 // MARK: - Private Extension
@@ -80,8 +86,10 @@ private extension LaunchRocketsViewController {
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: "ReusableCustomCell",
                                                          for: indexPath) as! CustomTableViewCell
                 let model = item[indexPath.item]
-                cell.launchDescription.text = model.description
-                cell.launchDescription.setContentOffset(CGPoint.zero, animated: false)
+                if let description = model.description {
+                    cell.launchDescription.text = "Description: " + description
+                }
+                //cell.launchDescription.text = model.description
                 cell.launchPlace.text = model.location?.name
                 cell.name.text = model.name
                 cell.activityIndicator.startAnimating()
