@@ -1,0 +1,6 @@
+framework module Pods_LaunchRocketsTestApp {
+  umbrella header "Pods-LaunchRocketsTestApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
