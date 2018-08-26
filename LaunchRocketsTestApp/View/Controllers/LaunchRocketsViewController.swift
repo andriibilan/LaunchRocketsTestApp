@@ -30,6 +30,7 @@ class LaunchRocketsViewController: UIViewController {
                             bundle: nil)
             tableView.register(nib,
                                forCellReuseIdentifier: "ReusableCustomCell")
+            viewModel.tableView = tableView
         }
     }
     
@@ -38,7 +39,6 @@ class LaunchRocketsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Launch"
-        activityIndicator.startAnimating()
         setViewModel()
     }
     
@@ -46,7 +46,6 @@ class LaunchRocketsViewController: UIViewController {
         super.viewWillAppear(animated)
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
-       // tableView.mini
     }
     
     override func prepare(for segue: UIStoryboardSegue,
@@ -68,39 +67,16 @@ extension LaunchRocketsViewController:  UITableViewDelegate {
         self.performSegue(withIdentifier: "detailLaunchRocket",
                           sender: model)
     }
-//
-//     func tableView(_ tableView: UITableView,
-//                    heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 184.5
-//    }
+    
 }
 
 // MARK: - Private Extension
 
 private extension LaunchRocketsViewController {
     func setViewModel() {
+        activityIndicator.startAnimating()
         viewModel.reloadTableViewClosure = { [weak self] in
             guard let `self` = self else { return }
-            self.data = MutableObservableArray(self.viewModel.launchItems)
-            self.data.bind(to: self.tableView) { (item, indexPath, table) -> UITableViewCell in
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: "ReusableCustomCell",
-                                                         for: indexPath) as! CustomTableViewCell
-                let model = item[indexPath.item]
-                if let description = model.description {
-                    cell.launchDescription.text = "Description: " + description
-                }
-                //cell.launchDescription.text = model.description
-                cell.launchPlace.text = model.location?.name
-                cell.name.text = model.name
-                cell.activityIndicator.startAnimating()
-                cell.rocketImage.sd_setImage(with: model.photo,
-                                             placeholderImage: nil,
-                                             options: .scaleDownLargeImages) { (image, error, SDImageCasheDisk, nil) in
-                                                cell.activityIndicator.stopAnimating()
-                                                cell.activityIndicator.hidesWhenStopped = true
-                }
-                return cell
-            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.activityIndicator.stopAnimating()

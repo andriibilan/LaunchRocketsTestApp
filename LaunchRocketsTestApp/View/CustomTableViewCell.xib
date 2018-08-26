@@ -52,7 +52,7 @@
                             </label>
                         </subviews>
                     </stackView>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="brI-i3-VFT">
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="brI-i3-VFT">
                         <rect key="frame" x="65" y="80" width="20" height="20"/>
                     </activityIndicatorView>
                 </subviews>

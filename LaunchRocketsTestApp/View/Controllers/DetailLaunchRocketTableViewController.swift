@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveKit
 
 class DetailLaunchRocketTableViewController: UITableViewController {
    
@@ -39,6 +40,7 @@ private extension DetailLaunchRocketTableViewController {
     
     func setupView() {
         self.title = "Detail"
+        
         rocketImage.sd_setImage(with: launchInfo?.photo,
                                 placeholderImage: nil,
                                 options: .fromCacheOnly,
